@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import SideBar from "@/components/sidebar";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,17 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className="w-full bg-whiteTheme overflow-hidden">
-        <main>
-          <div
-            className="grid grid-cols-[250px_1fr] gap-5 p-4 min-h-screen
-      "
-          >
-            <section className="bg-contentTheme rounded-2xl shadow-2xl p-4">
-              section 1
-            </section>
-            {children}
-          </div>
+      <body className="bg-darkTheme overflow-hidden">
+        <main className="grid grid-cols-[1fr_4fr] h-screen overflow-hidden">
+          <SideBar />
+          <div className="overflow-y-auto">{children}</div>
         </main>
       </body>
     </html>

@@ -11,13 +11,22 @@
 @layer theme {
   .bg-darkTheme {
     background-color: var(--darkTheme);
+    color: #ffff;
   }
 
   .bg-whiteTheme {
     background-color: var(--whiteTheme);
+    color: #141414;
   }
 
   .bg-contentTheme {
     background-color: var(--contentTheme);
+  }
+}
+
+@layer base {
+  button {
+    cursor: pointer;
+    transition: all 300ms;
   }
 }
