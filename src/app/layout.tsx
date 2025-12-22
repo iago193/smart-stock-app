@@ -14,10 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className="bg-darkTheme overflow-hidden">
-        <main className="grid grid-cols-[1fr_4fr] h-screen overflow-hidden">
+      <body className="bg-whiteTheme overflow-hidden">
+        <main className="grid lg:grid-cols-[1fr_4fr] grid-cols-1 h-screen overflow-hidden">
           <SideBar />
-          <div className="overflow-y-auto">{children}</div>
+          <div className="overflow-y-auto custom-scroll">{children}</div>
         </main>
       </body>
     </html>

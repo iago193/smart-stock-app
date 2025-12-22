@@ -15,7 +15,7 @@ export function CircularProgress({
     <svg width={size} height={size}>
       {/* FUNDO */}
       <circle
-        stroke="#374151"
+        stroke="#3641537c"
         fill="transparent"
         strokeWidth={strokeWidth}
         r={radius}
@@ -43,7 +43,6 @@ export function CircularProgress({
         y="50%"
         dominantBaseline="middle"
         textAnchor="middle"
-        fill="white"
         fontSize="20"
         fontWeight="bold"
       >

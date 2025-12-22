@@ -1,82 +1,121 @@
 import { HiCurrencyDollar, HiDocumentCurrencyDollar } from "react-icons/hi2";
 import { FaRegCircle } from "react-icons/fa";
-import { BsCurrencyDollar } from "react-icons/bs";
-import { CircularProgress } from "@/components/circularProgress";
+import { CircularProgress } from "@/utils/circularProgress";
 
 export default function Home() {
-  const currentValue = 1000000;
-  const estimativeValue = 2000000;
+  const currentValue = 10000;
+  const estimativeValue = 20000;
+
+  const formattedCurrentValue = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(currentValue);
+
+  const formattedEstimativeValue = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(estimativeValue);
 
   const progress = Math.min((currentValue / estimativeValue) * 100, 100);
 
   return (
-    <section id="panel" className="h-screen flex flex-col gap-5 p-5">
-      <div className="w-full bg-contentTheme rounded-2xl shadow-2xl p-10 overflow-hidden relative">
-        <div className="flex gap-40">
-          <div className="flex justify-center  flex-col items-center">
-            <div className="absolute -right-20 -top-40 text-gray-400/20">
+    <section id="panel" className="min-h-screen flex flex-col gap-5 p-5">
+      {/* MAIN SALES SUMMARY CARD */}
+      <div className="w-full bg-contentTheme rounded-2xl shadow-2xl p-5 md:p-10 overflow-hidden relative">
+        {/* TOP CONTENT AREA */}
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-40">
+          {/* CURRENT MONTH SALES */}
+          <div className="flex justify-center flex-col items-center">
+            {/* DECORATIVE BACKGROUND ELEMENT */}
+            <div className="absolute -right-20 -top-40 text-gray-400/20 pointer-events-none select-none">
               <FaRegCircle size={500} />
             </div>
+
             <h2 className="text-2xl mb-5 flex items-center gap-2">
-              {<HiCurrencyDollar />}Total de vendas esse mês
+              <HiCurrencyDollar />
+              Total de vendas esse mês
             </h2>
-            <p className="text-5xl flex items-center font-bold">
-              {<BsCurrencyDollar />}
-              {currentValue}
+
+            <p className="text-5xl font-bold">
+              {formattedCurrentValue}
             </p>
           </div>
-          <div className="lg:flex hidden justify-center flex-col items-center">
+
+          {/* MONTHLY SALES ESTIMATE (DESKTOP ONLY) */}
+          <div className="hidden lg:flex justify-center flex-col items-center">
             <h2 className="text-2xl mb-5 flex items-center gap-2">
-              {<HiDocumentCurrencyDollar />}Estimativa de vendas para esse mês
+              <HiDocumentCurrencyDollar />
+              Estimativa de vendas para esse mês
             </h2>
-            <p className="text-5xl flex items-center font-bold">
-              {<BsCurrencyDollar />}
-              {estimativeValue}
+
+            <p className="text-5xl font-bold">
+              {formattedEstimativeValue}
             </p>
           </div>
         </div>
-        {/* BARRA */}
+
+        {/* SALES PROGRESS BAR */}
         <div className="w-full h-4 bg-gray-700/40 mt-10 rounded-full">
           <div
             className="h-full bg-green-500 rounded-full transition-all duration-700 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <button
-          className="bg-blue-400/50 rounded-full p-2 absolute top-10 right-10
-        hover:bg-blue-400/70"
-        >
+
+        {/* ACTION BUTTON */}
+        <button className="bg-blue-500/50 rounded-full p-2 absolute top-5 right-5 md:top-10 md:right-10 hover:bg-blue-500/70">
           Ver detalhes
         </button>
       </div>
-      <div className="w-full grid lg:grid-cols-2 grid-cols-1 gap-5">
-        <div className="bg-contentTheme shadow-2xl rounded-2xl p-10">
-          <h2>Title</h2>
-          <div className="grid lg:grid-cols-2 grid-cols-1 p-2">
-            <div className="flex flex-col items-center">
-              <div className="w-60 flex flex-col items-center h-60 p-1">
-                <h3>1</h3>
+
+      {/* DASHBOARD BOTTOM GRID */}
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
+        {/* PREVIOUS MONTHS SUMMARY */}
+        <div className="bg-contentTheme shadow-2xl rounded-2xl p-5 lg:p-10 max-h-[38.5rem] overflow-y-auto custom-scroll">
+          <h2 className="mb-4">Resumo dos meses passados</h2>
+
+          {/* MONTHS GRID */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* JANUARY / FEBRUARY */}
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-60 h-60 flex flex-col items-center">
+                <h3>Janeiro - 2025</h3>
                 <CircularProgress />
               </div>
-              <div className="w-60 flex flex-col items-center h-60 p-1">
-                <h3>2</h3>
+
+              <div className="w-60 h-60 flex flex-col items-center">
+                <h3>Fevereiro - 2025</h3>
                 <CircularProgress />
               </div>
             </div>
-            <div className="flex flex-col items-center">
-              <div className="w-60 flex flex-col items-center h-60 p-1">
-                <h3>3</h3>
+
+            {/* MARCH / APRIL */}
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-60 h-60 flex flex-col items-center">
+                <h3>Março - 2025</h3>
                 <CircularProgress />
               </div>
-              <div className="w-60 flex flex-col items-center h-60 p-1">
-                <h3>4</h3>
+
+              <div className="w-60 h-60 flex flex-col items-center">
+                <h3>Abril - 2025</h3>
                 <CircularProgress />
               </div>
             </div>
           </div>
         </div>
-        <div className="bg-contentTheme shadow-2xl rounded-2xl p-10">
-          serção 2
+
+        {/* SALES HISTORY */}
+        <div className="bg-contentTheme shadow-2xl rounded-2xl p-5 lg:p-10 max-h-[38.5rem] overflow-y-auto custom-scroll">
+          <h3 className="mb-5">Histórico de vendas</h3>
+          <div className="flex flex-col gap-4">
+            <div className="bg-blue-500/50 p-4 rounded-2xl shadow-sm">
+              <div className="flex justify-between">
+                <h4>Operador: iago - 12/05/2025</h4>
+                <p>Valor da venda: 48,66</p>
+              </div>
+              <span>produto1, produto2, produto3, produto4</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
