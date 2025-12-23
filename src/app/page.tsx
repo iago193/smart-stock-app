@@ -1,4 +1,5 @@
 import { HiCurrencyDollar, HiDocumentCurrencyDollar } from "react-icons/hi2";
+import { CgMoreVerticalAlt } from "react-icons/cg";
 import { FaRegCircle } from "react-icons/fa";
 import { CircularProgress } from "@/utils/circularProgress";
 
@@ -36,9 +37,7 @@ export default function Home() {
               Total de vendas esse mês
             </h2>
 
-            <p className="text-5xl font-bold">
-              {formattedCurrentValue}
-            </p>
+            <p className="text-5xl font-bold">{formattedCurrentValue}</p>
           </div>
 
           {/* MONTHLY SALES ESTIMATE (DESKTOP ONLY) */}
@@ -48,9 +47,7 @@ export default function Home() {
               Estimativa de vendas para esse mês
             </h2>
 
-            <p className="text-5xl font-bold">
-              {formattedEstimativeValue}
-            </p>
+            <p className="text-5xl font-bold">{formattedEstimativeValue}</p>
           </div>
         </div>
 
@@ -63,15 +60,15 @@ export default function Home() {
         </div>
 
         {/* ACTION BUTTON */}
-        <button className="bg-blue-500/50 rounded-full p-2 absolute top-5 right-5 md:top-10 md:right-10 hover:bg-blue-500/70">
-          Ver detalhes
+        <button className="rounded-full p-2 text-2xl absolute top-5 right-5 md:top-5 md:right-5 hover:bg-blue-500/70">
+          <CgMoreVerticalAlt />
         </button>
       </div>
 
       {/* DASHBOARD BOTTOM GRID */}
-      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 items-start relative">
         {/* PREVIOUS MONTHS SUMMARY */}
-        <div className="bg-contentTheme shadow-2xl rounded-2xl p-5 lg:p-10 max-h-[38.5rem] overflow-y-auto custom-scroll">
+        <div className="bg-contentTheme shadow-2xl rounded-2xl p-5 lg:p-10 max-h-[38.5rem] overflow-y-auto custom-scroll relative">
           <h2 className="mb-4">Resumo dos meses passados</h2>
 
           {/* MONTHS GRID */}
@@ -102,6 +99,10 @@ export default function Home() {
               </div>
             </div>
           </div>
+          {/* ACTION BUTTON */}
+          <button className="rounded-full p-2 text-2xl absolute top-5 right-5 md:top-5 md:right-5 hover:bg-blue-500/70">
+            <CgMoreVerticalAlt />
+          </button>
         </div>
 
         {/* SALES HISTORY */}
@@ -117,6 +118,10 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {/* ACTION BUTTON */}
+        <button className="rounded-full p-2 text-2xl absolute top-5 right-5 md:top-5 md:right-5 hover:bg-blue-500/70">
+          <CgMoreVerticalAlt />
+        </button>
       </div>
     </section>
   );
