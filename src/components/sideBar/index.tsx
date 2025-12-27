@@ -40,7 +40,7 @@ export default function SideBar() {
           </Link>
         </li>
         <li>
-          <Link href="#" className={linkStyle}>
+          <Link href="/cashregister" className={linkStyle}>
             <FaCashRegister />
             Caixa
           </Link>
