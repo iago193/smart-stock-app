@@ -2,20 +2,34 @@
 
 @layer components {
   :root {
-    --darkTheme: #040a16;
-    --whiteTheme: #f3f0f0;
-    --contentTheme: #ffffff1c;
+    --darkTheme: linear-gradient(
+        to bottom,
+        rgba(169, 85, 247, 0.76) 0%,
+        rgba(169, 85, 247, 0.452) 20%,
+        rgba(169, 85, 247, 0.171) 40%,
+        transparent 70%
+      ),
+      #040a16;
+    --whiteTheme: linear-gradient(
+        to bottom,
+        rgba(169, 85, 247, 0.76) 0%,
+        rgba(169, 85, 247, 0.452) 20%,
+        rgba(169, 85, 247, 0.171) 40%,
+        transparent 70%
+      ),
+      #f3f0f0;
+    --contentTheme: #ffffff;
   }
 }
 
 @layer theme {
   .bg-darkTheme {
-    background-color: var(--darkTheme);
+    background: var(--darkTheme);
     color: #ffff;
   }
 
   .bg-whiteTheme {
-    background-color: var(--whiteTheme);
+    background: var(--whiteTheme);
     color: #141414;
   }
 
