@@ -1,6 +1,7 @@
 import CashRegisterProductList from "@/components/cashRegisterProductList";
 import { url, endpoints } from "@/constants/api";
 import type { ProductsType } from "@/types/productsType";
+import CashRegisterOder from "@/components/cashRegisterOder";
 
 export default async function CashRegister() {
   let products :ProductsType[] = [];
@@ -16,12 +17,12 @@ export default async function CashRegister() {
   return (
     <section className="w-full h-screen p-5">
       <div className="w-full h-full rounded-2xl bg-contentTheme shadow-2xl p-5">
-        <div className="w-full h-full grid grid-cols-[2fr_1fr] gap-5">
-          <div>
+        <div className="w-full h-full grid md:grid-cols-[2fr_1fr] grid-cols-1 gap-5">
+          <div className="hidden md:block overflow-y-auto">
             <CashRegisterProductList products={products} />
           </div>
-          <div className="border-2 p-5">
-            item 2
+          <div className="p-5 bg-purple-400 rounded-2xl shadow-2xl overflow-auto">
+            <CashRegisterOder />
           </div>
         </div>
       </div>

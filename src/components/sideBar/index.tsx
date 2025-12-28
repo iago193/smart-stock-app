@@ -12,7 +12,8 @@ import {
 import Link from "next/link";
 
 export default function SideBar() {
-  const linkStyle = 'inline-flex items-center gap-3 hover:text-primary transition'
+  const linkStyle =
+    "inline-flex items-center gap-3 hover:text-primary transition";
 
   return (
     <aside className="bg-contentTheme shadow-2xl p-4 h-full">
@@ -33,12 +34,6 @@ export default function SideBar() {
         Painel
       </h3>
       <ul className="flex flex-col gap-4 text-xl">
-        <li>
-          <Link href="/" className={linkStyle}>
-            <FaChartLine />
-            Estatísticas
-          </Link>
-        </li>
         <li>
           <Link href="/cashregister" className={linkStyle}>
             <FaCashRegister />
@@ -64,6 +59,12 @@ export default function SideBar() {
         Administrativo
       </h3>
       <ul className="flex flex-col gap-4 text-xl">
+        <li>
+          <Link href="/" className={linkStyle}>
+            <FaChartLine />
+            Estatísticas
+          </Link>
+        </li>
         <li>
           <Link href="#" className={linkStyle}>
             <FaUsers />

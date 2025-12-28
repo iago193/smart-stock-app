@@ -1,4 +1,4 @@
-export function colorFromIndex(index: number) {
-  const lightness = 35 + (index * 7) % 40;
-  return `hsl(270, 65%, ${lightness}%)`;
+export function colorFromIndex(index: number): string {
+  const hue = (index * 137.508) % 360; // distribuição ótima
+  return `hsl(${hue}, 75%, 55%)`;
 }
