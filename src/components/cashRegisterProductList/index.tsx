@@ -9,7 +9,7 @@ type Props = {
 
 export default function CashRegisterProductList({ products }: Props) {
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5  gap-4 p-5 content-start">
+    <div className="grid md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-5  gap-4 p-5 content-start">
       {products.map((product) => (
         <div
           key={product.id}
