@@ -17,7 +17,7 @@ export default async function CashRegister() {
   return (
     <section className="w-full h-screen p-5">
       <div className="w-full h-full rounded-2xl bg-contentTheme shadow-2xl p-5">
-        <div className="w-full h-full grid md:grid-cols-[1fr_2fr] xl:grid-cols-[2fr_1fr] grid-cols-1 gap-5">
+        <div className="w-full h-full grid md:grid-cols-[1fr_450px] xl:grid-cols-[2fr_450px] grid-cols-1 gap-5">
           <div className="hidden md:block overflow-y-auto">
             <CashRegisterProductList products={products} />
           </div>
