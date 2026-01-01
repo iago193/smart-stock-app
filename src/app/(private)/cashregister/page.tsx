@@ -21,7 +21,7 @@ export default async function CashRegister() {
           <div className="hidden md:block overflow-y-auto">
             <CashRegisterProductList products={products} />
           </div>
-          <div className="p-5 bg-purple-400 rounded-2xl shadow-2xl overflow-auto">
+          <div className="p-5 bg-purple-600 rounded-2xl shadow-2xl overflow-auto">
             <CashRegisterOder products={products} />
           </div>
         </div>

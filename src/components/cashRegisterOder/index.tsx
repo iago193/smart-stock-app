@@ -1,8 +1,9 @@
 "use client";
 
-import { endpoints } from "@/constants/api";
+import { endpoints, url } from "@/constants/api";
 import type { ProductsType } from "@/types/productsType";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "react-toastify";
 
 type TableProductsProps = {
   products: ProductsType[];
@@ -11,6 +12,10 @@ type TableProductsProps = {
 type CartItem = ProductsType & {
   quantity: number;
 };
+const operator = 'iago bruno';
+// token para teste de conexão
+const token =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiaWlpaWdvMDAwQGdtYWlsLmNvbSIsInJvbGUiOiJvd25lciIsImlhdCI6MTc2NzI5ODY3OSwiZXhwIjoxNzY3Mzg1MDc5fQ.vCgs1Px4gDHAzGr85IqWDS-HlgaOaAe-A7_Kuo2JmDk";
 
 export default function CashRegisterOder({ products }: TableProductsProps) {
   const [productList, setProductList] = useState(products);
@@ -19,25 +24,37 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
   const [seachIsTrue, setSeachIsTrue] = useState(false);
   const [registerOder, setRegisterOder] = useState<CartItem[]>([]);
 
+  useEffect(() => {
+    console.log(registerOder);
+  }, [registerOder]);
+
   const handleCashRegisterHistory = async () => {
-    const response = await fetch(endpoints.history, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        items: registerOder,
-        total: cash,
-        createdAt: new Date(),
-      }),
-    });
+    try {
+      const response = await fetch(`${url}${endpoints.history}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        credentials: "include", // se usa auth/cookie
+        body: JSON.stringify({
+          operator: operator,
+          items: registerOder,
+          total: cash,
+        }),
+      });
 
-    if (!response.ok) {
-      throw new Error("Erro ao salvar histórico");
+      if (!response.ok) {
+        throw new Error("Erro ao salvar histórico");
+      }
+
+      const data = await response.json();
+      console.log(data);
+      toast.success("Venda realizada com sucesso!");
+      return data;
+    } catch (error) {
+      console.log(error);
     }
-
-    const data = await response.json();
-    console.log(data);
   };
 
   /* Atualiza lista de produtos */
@@ -197,8 +214,9 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
       {/* BOTÕES */}
       <div className="flex flex-col gap-2">
         <button
-          onChange={() => handleCashRegisterHistory()}
+          onClick={handleCashRegisterHistory}
           className={`bg-green-400 hover:bg-green-500 ${btnStyle}`}
+          type="button"
         >
           Confirmar
         </button>
