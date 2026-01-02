@@ -4,6 +4,8 @@ import { endpoints, url } from "@/constants/api";
 import type { ProductsType } from "@/types/productsType";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
+import { FaCartPlus, FaCartArrowDown } from "react-icons/fa";
+import { IoPerson } from "react-icons/io5";
 
 type TableProductsProps = {
   products: ProductsType[];
@@ -12,10 +14,10 @@ type TableProductsProps = {
 type CartItem = ProductsType & {
   quantity: number;
 };
-const operator = 'iago bruno';
+const operator = "iago bruno";
 // token para teste de conexão
 const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoiaWlpaWdvMDAwQGdtYWlsLmNvbSIsInJvbGUiOiJvd25lciIsImlhdCI6MTc2NzI5ODY3OSwiZXhwIjoxNzY3Mzg1MDc5fQ.vCgs1Px4gDHAzGr85IqWDS-HlgaOaAe-A7_Kuo2JmDk";
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoib3duZXIiLCJpYXQiOjE3NjczODk1MzEsImV4cCI6MTc2NzQ3NTkzMX0.--G9v4ZIjeasSodhbuMjbl1sOEN8YU6HMOjK-JWdeOE";
 
 export default function CashRegisterOder({ products }: TableProductsProps) {
   const [productList, setProductList] = useState(products);
@@ -23,10 +25,7 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
   const [count, setCount] = useState(1);
   const [seachIsTrue, setSeachIsTrue] = useState(false);
   const [registerOder, setRegisterOder] = useState<CartItem[]>([]);
-
-  useEffect(() => {
-    console.log(registerOder);
-  }, [registerOder]);
+  const [isCashRegisterIdle, setIsCashRegisterIdle] = useState(false);
 
   const handleCashRegisterHistory = async () => {
     try {
@@ -36,24 +35,35 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
           "Content-Type": "application/json",
           Authorization: token,
         },
-        credentials: "include", // se usa auth/cookie
+        credentials: "include",
         body: JSON.stringify({
-          operator: operator,
+          operator,
           items: registerOder,
           total: cash,
         }),
       });
 
+      // ⛔ Se deu erro HTTP, PARA A EXECUÇÃO
       if (!response.ok) {
-        throw new Error("Erro ao salvar histórico");
+        const errorData = await response.json().catch(() => null);
+
+        throw new Error(errorData?.message || "Erro ao salvar histórico");
       }
 
       const data = await response.json();
-      console.log(data);
+
       toast.success("Venda realizada com sucesso!");
+      setRegisterOder([]);
+      setIsCashRegisterIdle(false)
+
       return data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+        return;
+      }
+
+      toast.error("Erro inesperado");
     }
   };
 
@@ -127,8 +137,10 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
     "w-full p-5 rounded-2xl text-3xl font-bold text-white shadow-sm transition duration-300";
 
   return (
-    <div className="w-full relative">
-      {/* INPUT BUSCA */}
+    <div className="w-full h-full relative">
+      {isCashRegisterIdle? (
+        <>
+        {/* INPUT BUSCA */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -215,14 +227,17 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
       <div className="flex flex-col gap-2">
         <button
           onClick={handleCashRegisterHistory}
-          className={`bg-green-400 hover:bg-green-500 ${btnStyle}`}
+          className={`bg-green-500 hover:bg-green-600 transition duration-300 ${btnStyle}`}
           type="button"
         >
           Confirmar
         </button>
         <button
-          onClick={() => setRegisterOder([])}
-          className={`bg-red-400 hover:bg-red-500 ${btnStyle}`}
+          onClick={() => {
+            setRegisterOder([])
+            setIsCashRegisterIdle(false)
+          }}
+          className={`bg-red-500 hover:bg-red-600 transition duration-300 ${btnStyle}`}
         >
           Cancelar
         </button>
@@ -232,6 +247,21 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
       <div className="w-full bg-blue-400 p-5 text-3xl font-bold mt-2 rounded-2xl text-white">
         TOTAL: R$ {cash.toFixed(2)}
       </div>
+      </>
+      ) : (
+        <div className="w-full h-full flex justify-center items-center relative">
+          <div className="absolute mx-auto top-40">
+            <h2 className="font-bold text-white text-5xl">CAIXA LIVRE</h2>
+            <p className="flex justify-center items-center mt-2 text-white/80 gap-2 font-bold">{<IoPerson />}Operador: {operator}</p>
+          </div>
+            <div className="w-full">
+              <button onClick={
+                () => setIsCashRegisterIdle(true)
+              } className={`w-full flex justify-center gap-2 bg-green-500 hover:bg-green-600 transition duration-300 ${btnStyle}`}>{<FaCartPlus />}Nova venda</button>
+              <button  className={`mt-2 flex justify-center gap-2 w-full bg-red-500 hover:bg-red-600 transition duration-300 ${btnStyle}`}>{<FaCartArrowDown />}Fechar caixa</button>
+            </div>
+        </div>
+      )}
     </div>
   );
 }

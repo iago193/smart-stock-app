@@ -2,9 +2,10 @@ import CashRegisterProductList from "@/components/cashRegisterProductList";
 import { url, endpoints } from "@/constants/api";
 import type { ProductsType } from "@/types/productsType";
 import CashRegisterOder from "@/components/cashRegisterOder";
+import Modal from "@/components/modal/modal";
 
 export default async function CashRegister() {
-  let products :ProductsType[] = [];
+  let products: ProductsType[] = [];
 
   const response = await fetch(`${url}${endpoints.products}`, {
     method: "GET",
@@ -12,7 +13,7 @@ export default async function CashRegister() {
   });
 
   const data = await response.json();
-  products = data.data
+  products = data.data;
 
   return (
     <section className="w-full h-screen p-5">
@@ -26,6 +27,8 @@ export default async function CashRegister() {
           </div>
         </div>
       </div>
+      {/*Modal*/}
+      <Modal />
     </section>
   );
 }
