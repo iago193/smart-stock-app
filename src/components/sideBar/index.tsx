@@ -60,7 +60,7 @@ export default function SideBar() {
       </h3>
       <ul className="flex flex-col gap-4 text-xl">
         <li>
-          <Link href="/" className={linkStyle}>
+          <Link href="/statistic" className={linkStyle}>
             <FaChartLine />
             Estatísticas
           </Link>

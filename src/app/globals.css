@@ -45,6 +45,10 @@
   }
 }
 
+.background-login {
+  background: url(../assets/img/background.png), no-repeat top center;
+}
+
 @layer utilities {
   .custom-scroll {
     scrollbar-width: thin;

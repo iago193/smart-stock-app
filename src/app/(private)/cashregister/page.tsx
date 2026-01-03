@@ -2,7 +2,7 @@ import CashRegisterProductList from "@/components/cashRegisterProductList";
 import { url, endpoints } from "@/constants/api";
 import type { ProductsType } from "@/types/productsType";
 import CashRegisterOder from "@/components/cashRegisterOder";
-import Modal from "@/components/modal/modal";
+import Modal from "@/components/modalConfirmed";
 
 export default async function CashRegister() {
   let products: ProductsType[] = [];
@@ -27,8 +27,6 @@ export default async function CashRegister() {
           </div>
         </div>
       </div>
-      {/*Modal*/}
-      <Modal />
     </section>
   );
 }
