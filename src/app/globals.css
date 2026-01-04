@@ -45,10 +45,6 @@
   }
 }
 
-.background-login {
-  background: url(../assets/img/background.png), no-repeat top center;
-}
-
 @layer utilities {
   .custom-scroll {
     scrollbar-width: thin;
@@ -66,5 +62,75 @@
 
   .custom-scroll::-webkit-scrollbar-track {
     background: transparent;
+  }
+}
+
+/* Container principal */
+.video-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Ajuste correto em mobile (barra dinâmica) */
+@supports (height: 100dvh) {
+  .video-container {
+    height: 100dvh;
+  }
+}
+
+/* Vídeo de fundo */
+.video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ESSENCIAL */
+  object-position: center;
+  z-index: -1;
+  filter: blur(6px); /* ajuste se quiser mais/menos */
+  transform: scale(1.05); /* evita bordas após blur */
+}
+
+/* Overlay escuro */
+.video-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 0;
+}
+
+/* Conteúdo por cima do vídeo */
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Exemplo de card sobre o vídeo */
+.card {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 32px;
+  color: #fff;
+  max-width: 420px;
+  width: 100%;
+}
+
+/* Mobile: desativa vídeo e usa imagem */
+@media (max-width: 768px) {
+  .video-bg {
+    display: none;
+  }
+
+  .video-container {
+    background: url("../assets/img/bg-fallback.jpg") center / cover no-repeat;
   }
 }

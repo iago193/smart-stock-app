@@ -10,8 +10,16 @@ export default function Home() {
   }
 
   return (
-     <div className="background-login">
-        <LoginForm />
-     </div>
+    <div className="video-container">
+      <video autoPlay muted loop playsInline className="video-bg">
+        <source src="/videos/background.mp4" type="video/mp4" />
+      </video>
+
+      <div className="content">
+        <div className="card">
+          <LoginForm />
+        </div>
+      </div>
+    </div>
   );
 }
