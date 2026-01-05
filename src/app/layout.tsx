@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ErrorProvider } from "@/contexts/ErrorContext";
 
 export const metadata: Metadata = {
   title: "Smart Stock",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <ErrorProvider>{children}</ErrorProvider>
+      </body>
     </html>
   );
 }
