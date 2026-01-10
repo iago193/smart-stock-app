@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ErrorProvider } from "@/contexts/ErrorContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata: Metadata = {
   title: "Smart Stock",
@@ -15,7 +16,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body>
-        <ErrorProvider>{children}</ErrorProvider>
+        <AuthProvider>
+          <ErrorProvider>
+            {children}
+          </ErrorProvider>
+        </AuthProvider>
       </body>
     </html>
   );

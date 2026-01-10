@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { loginAction } from "@/app/actions/loginAction";
 import { useError } from "@/contexts/ErrorContext";
 import { toast } from "react-toastify";
+import { actionLogin } from "./action-login";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,15 +19,20 @@ export default function LoginForm() {
     "bg-gray-300/50 p-2 rounded-md focus:outline-2 outline-blue-300";
 
   const { setNewError, clearError, error } = useError();
+  const router = useRouter();
 
   const handleLogin = async (formData: FormData) => {
-    const data = await loginAction(formData);
-    if (!data.success) {
-      setNewError(data.message);
-      return;
-    }
+    const data = await actionLogin(formData);
+
+    if (!data.success) return setNewError(data.message);
+
     clearError();
-    toast.success("Login realizado");
+    toast.success("Logado com sucesso!");
+    console.log(data);
+    if (data.success) {
+      router.replace("/cashregister");
+      router.refresh();
+    }
   };
 
   return (

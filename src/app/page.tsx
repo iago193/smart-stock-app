@@ -2,7 +2,7 @@
 import LoginForm from "@/components/loginForm";
 import { redirect } from "next/navigation";
 
-export default function Home() {
+export default function Login() {
   const isAuthenticated = false; // exemplo
 
   if (isAuthenticated) {
