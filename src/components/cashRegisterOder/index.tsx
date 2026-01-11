@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { FaCartPlus, FaCartArrowDown } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
 import Modal from "../modalConfirmed";
+import { useAuth } from "@/contexts/AuthContext";
+import { MdOpenInNew } from "react-icons/md";
 
 type TableProductsProps = {
   products: ProductsType[];
@@ -16,12 +18,6 @@ type CartItem = ProductsType & {
   quantity: number;
 };
 
-const operator = "Iago Bruno";
-
-// ⚠️ token apenas para teste
-const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoib3duZXIiLCJpYXQiOjE3NjczODk1MzEsImV4cCI6MTc2NzQ3NTkzMX0.--G9v4ZIjeasSodhbuMjbl1sOEN8YU6HMOjK-JWdeOE";
-
 export default function CashRegisterOder({ products }: TableProductsProps) {
   const [productList, setProductList] = useState(products);
   const [search, setSearch] = useState("");
@@ -30,6 +26,9 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
   const [registerOder, setRegisterOder] = useState<CartItem[]>([]);
   const [isCashRegisterIdle, setIsCashRegisterIdle] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const { user, handleCashRegisterOpen, isCashRegisterOpen } = useAuth();
+
+  const operator = user?.name || "Desconhecido";
 
   /* ================= TOTAL ================= */
   const cash = useMemo(() => {
@@ -46,7 +45,6 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token,
         },
         credentials: "include",
         body: JSON.stringify({
@@ -144,7 +142,20 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
 
   return (
     <div className="w-full h-full relative">
-      {isCashRegisterIdle ? (
+      {!isCashRegisterOpen ? (
+        <div className="w-full h-full flex flex-col justify-center items-center">
+          <p className="flex justify-center items-center mt-2 text-white/80 gap-2 font-bold mb-2">
+            <IoPerson /> Operador: {operator}
+          </p>
+          <button
+            className={`w-full flex justify-center gap-2 bg-blue-500 hover:bg-blue-600 ${btnStyle}`}
+            onClick={handleCashRegisterOpen}
+          >
+            {<MdOpenInNew />}
+            Abrir Caixa
+          </button>
+        </div>
+      ) : isCashRegisterIdle ? (
         <>
           {/* SEARCH */}
           <form
@@ -276,6 +287,7 @@ export default function CashRegisterOder({ products }: TableProductsProps) {
             </button>
 
             <button
+              onClick={handleCashRegisterOpen}
               className={`mt-2 flex justify-center gap-2 w-full bg-red-500 hover:bg-red-600 ${btnStyle}`}
             >
               <FaCartArrowDown /> Fechar caixa

@@ -5,7 +5,7 @@ export const endpoints = {
     history:"/history",
     auth: {
         login: '/login',
-        me: 'login/me',
-        logout: 'login/logout',
+        me: '/login/me',
+        logout: '/login/logout',
     },
 }
