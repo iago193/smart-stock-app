@@ -28,7 +28,6 @@ export default function LoginForm() {
 
     clearError();
     toast.success("Logado com sucesso!");
-    console.log(data);
     if (data.success) {
       router.replace("/cashregister");
       router.refresh();
@@ -42,7 +41,14 @@ export default function LoginForm() {
           <h2 className="text-3xl font-bold text-white border-b-2 border-b-gray-400 py-2 mb-5">
             Faça login
           </h2>
-          <form action={handleLogin} className="text-md text-white">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              handleLogin(formData);
+            }}
+            className="text-md text-white"
+          >
             <div className="flex flex-col font-bold">
               <label htmlFor="name">E-mail</label>
               <input
@@ -71,6 +77,7 @@ export default function LoginForm() {
                 <button
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute top-11 right-2"
+                  type="button"
                 >
                   {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>

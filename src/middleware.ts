@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
-  console.log(token);
+
   const secret = process.env.JWT_SECRET;
 
   if (!secret) {

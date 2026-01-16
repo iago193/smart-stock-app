@@ -1,18 +1,24 @@
 "use client";
 
-import type { ProductsType } from "@/types/productsType";
+import type { CategoryListType, ProductsType } from "@/types/productsType";
 import { useState } from "react";
+import CreateProductForm from "../createProductFormModal";
 
 type TableProductsProps = {
   products: ProductsType[];
+  categories: CategoryListType;
 };
 
-export default function TableProducts({ products }: TableProductsProps) {
+export default function TableProducts({
+  products,
+  categories,
+}: TableProductsProps) {
   const styleUl = "p-2";
 
   const [filted, setFilted] = useState<ProductsType[]>(products);
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const applyFilters = (category: string, searchText: string) => {
     let result = products;
@@ -21,15 +27,13 @@ export default function TableProducts({ products }: TableProductsProps) {
       result = result.filter((product) =>
         product.category?.name
           ?.toLowerCase()
-          .includes(category.toLowerCase().trim())
+          .includes(category.toLowerCase().trim()),
       );
     }
 
     if (searchText) {
       result = result.filter((product) =>
-        product.name
-          .toLowerCase()
-          .includes(searchText.toLowerCase().trim())
+        product.name.toLowerCase().includes(searchText.toLowerCase().trim()),
       );
     }
 
@@ -110,21 +114,33 @@ export default function TableProducts({ products }: TableProductsProps) {
         </table>
       </div>
 
-      <div className="w-full flex gap-2 mt-5">
+      <div className="w-full flex gap-4 mt-5">
         <select
           onChange={(e) => handleFilter(e.target.value)}
           className="rounded-2xl p-2 mt-2 bg-contentTheme shadow-xl text-center"
         >
-          <option value="">Todos</option>
-          {[...new Set(products.map(p => p.category?.name).filter(Boolean))].map(
-            (category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            )
-          )}
+          <option value="">Mostrar todos</option>
+          {[
+            ...new Set(products.map((p) => p.category?.name).filter(Boolean)),
+          ].map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
         </select>
+        <button
+          onClick={() => setModalOpen(true)}
+          type="button"
+          className="rounded-2xl p-2 mt-2 bg-contentTheme shadow-xl text-center"
+        >
+          Adicionar Produto
+        </button>
       </div>
+      <CreateProductForm
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        categories={categories}
+      />
     </>
   );
 }

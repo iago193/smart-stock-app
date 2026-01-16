@@ -9,6 +9,8 @@ type CategoryType = {
   name: string;
 };
 
+export type CategoryListType = CategoryType[] | [];
+
 export type ProductsType = {
   id: number;
   name: string;
