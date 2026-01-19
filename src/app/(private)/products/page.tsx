@@ -7,7 +7,7 @@ export default async function Product() {
   let categories: CategoryListType = [];
 
   try {
-    const response = await fetch(`${url}${endpoints.products.get}`, {
+    const response = await fetch(`${url}${endpoints.products}`, {
       method: "GET",
       cache: "no-store",
     });
@@ -17,7 +17,7 @@ export default async function Product() {
     console.log(error);
   }
 
-  const categoriesResponse = await fetch(`${url}${endpoints.category.get}`, {
+  const categoriesResponse = await fetch(`${url}${endpoints.categories}`, {
     method: "GET",
     cache: "no-store",
   });

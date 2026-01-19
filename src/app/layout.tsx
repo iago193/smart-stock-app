@@ -17,9 +17,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body>
         <AuthProvider>
-          <ErrorProvider>
-            {children}
-          </ErrorProvider>
+          <ErrorProvider>{children}</ErrorProvider>
         </AuthProvider>
       </body>
     </html>

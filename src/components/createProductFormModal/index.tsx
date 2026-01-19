@@ -2,6 +2,9 @@
 
 import { CategoryListType } from "@/types/productsType";
 import { MdOutlineProductionQuantityLimits, MdClose } from "react-icons/md";
+import { createProductAction } from "./action-product-create";
+import { GrNext } from "react-icons/gr";
+import { toast } from "react-toastify";
 
 type CreateProductFormProps = {
   modalOpen: boolean;
@@ -17,6 +20,11 @@ export default function CreateProductForm({
   const inputStyle =
     "w-full bg-gray-200 rounded-md p-2 focus:outline-2 outline-blue-400/50 focus:shadow-sm shadow-blue-400 transition duration-300";
 
+  const handleProductAction = async (formData: FormData) => {
+    const response = await createProductAction(formData);
+    toast.success(response);
+    setModalOpen(false);
+  };
   if (!modalOpen) return null;
 
   return (
@@ -32,9 +40,16 @@ export default function CreateProductForm({
             Preencha todos os campos para adicionar um novo produto ao estoque.
           </p>
 
-          <form className="flex flex-col gap-1 overflow-y-auto max-h-[300px] font-bold p-2">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              handleProductAction(formData);
+            }}
+            className="flex flex-col gap-1 overflow-y-auto max-h-[300px] font-bold p-2"
+          >
             <label>Nome do produto</label>
-            <input name="name" className={inputStyle} type="text" />
+            <input name="name" className={inputStyle} type="text" required />
 
             <label>Descrição</label>
             <input name="description" className={inputStyle} type="text" />
@@ -44,11 +59,12 @@ export default function CreateProductForm({
               name="barcode"
               className={inputStyle}
               type="number"
+              required
               min="0"
             />
 
             <label>Marca</label>
-            <input name="brand" className={inputStyle} type="text" />
+            <input name="brand" className={inputStyle} type="text" required />
 
             <label>Preço</label>
             <input
@@ -56,14 +72,24 @@ export default function CreateProductForm({
               className={inputStyle}
               type="number"
               min="0"
+              required
               step="0.01"
             />
 
             <label>Estoque</label>
-            <input name="stock" className={inputStyle} type="number" min="0" />
+            <input
+              name="stock"
+              className={inputStyle}
+              type="number"
+              min="0"
+              required
+            />
 
             <label>Categoria</label>
-            <select name="category_id" className={`${inputStyle}`}>
+            <select
+              name="category_id"
+              className={`${inputStyle} overflow-y-auto`}
+            >
               <option value="">Selecione</option>
 
               {categories.map((category) => (
@@ -72,6 +98,12 @@ export default function CreateProductForm({
                 </option>
               ))}
             </select>
+            <button
+              className="bg-blue-400 p-2 mt-5 mb-5 w-24 font-bold rounded-lg text-center flex justify-center transform hover:scale-105 hover:bg-blue-500 transition duration-300"
+              type="submit"
+            >
+              <GrNext className="text-white/70" size={30} />
+            </button>
           </form>
 
           <button

@@ -2,7 +2,8 @@
 
 @layer components {
   :root {
-    --darkTheme: linear-gradient(
+    --darkTheme:
+      linear-gradient(
         to bottom,
         rgba(169, 85, 247, 0.76) 0%,
         rgba(169, 85, 247, 0.452) 20%,
@@ -10,7 +11,8 @@
         transparent 70%
       ),
       #040a16;
-    --whiteTheme: linear-gradient(
+    --whiteTheme:
+      linear-gradient(
         to bottom,
         rgba(169, 85, 247, 0.603) 0%,
         rgba(169, 85, 247, 0.445) 20%,
@@ -62,6 +64,14 @@
 
   .custom-scroll::-webkit-scrollbar-track {
     background: transparent;
+  }
+
+  .active-path a {
+    background-color: rgba(43, 43, 250, 0.795);
+    color: white;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 8px;
   }
 }
 

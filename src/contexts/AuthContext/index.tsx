@@ -14,7 +14,7 @@ type User = {
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  isCashRegisterOpen: boolean,
+  isCashRegisterOpen: boolean;
   handleCashRegisterOpen: () => void;
   logout: () => Promise<void>;
 };
@@ -40,7 +40,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const data = await res.json();
       setUser(data.user);
-      console.log("User loaded:", data.user);
     } catch {
       setUser(null);
     } finally {
@@ -66,7 +65,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, isCashRegisterOpen, loading, logout, handleCashRegisterOpen}}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isCashRegisterOpen,
+        loading,
+        logout,
+        handleCashRegisterOpen,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

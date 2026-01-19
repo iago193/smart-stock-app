@@ -15,7 +15,7 @@ export default function CashRegisterProductList({ products }: Props) {
     return products.filter(
       (product) =>
         product.name.toLowerCase().includes(search.toLowerCase()) ||
-        product.barcode?.toString().includes(search)
+        product.barcode?.toString().includes(search),
     );
   }, [products, search]);
 
@@ -33,7 +33,7 @@ export default function CashRegisterProductList({ products }: Props) {
       </div>
 
       {/* LISTA */}
-      <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 transition duration-300 gap-4 p-5 content-start">
+      <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 transition duration-300 gap-4 p-5 content-start">
         {filteredProducts.length === 0 && (
           <p className="text-white/60">Nenhum produto encontrado</p>
         )}
