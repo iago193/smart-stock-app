@@ -6,6 +6,7 @@ import { useError } from "@/contexts/ErrorContext";
 import { toast } from "react-toastify";
 import { actionLogin } from "./action-login";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,18 +21,23 @@ export default function LoginForm() {
 
   const { setNewError, clearError, error } = useError();
   const router = useRouter();
+  const { reloadUser } = useAuth();
 
   const handleLogin = async (formData: FormData) => {
     const data = await actionLogin(formData);
 
-    if (!data.success) return setNewError(data.message);
+    if (!data.success) {
+      setNewError(data.message);
+      return;
+    }
 
     clearError();
     toast.success("Logado com sucesso!");
-    if (data.success) {
-      router.replace("/cashregister");
-      router.refresh();
-    }
+
+    // 🔥 CARREGA O USER ANTES DE REDIRECIONAR
+    await reloadUser();
+
+    router.replace("/cashregister");
   };
 
   return (

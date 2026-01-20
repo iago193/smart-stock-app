@@ -10,6 +10,7 @@ import {
   FaCalculator,
   FaUsers,
 } from "react-icons/fa6";
+import { MdAddAPhoto } from "react-icons/md";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -53,13 +54,22 @@ export default function SideBar({
             {/* USUÁRIO */}
             <div className="flex justify-center items-center gap-4 md:mt-2 mt-10 mb-10 py-2 text-xl">
               <h2>Olá, {user?.name}</h2>
-              <Image
-                src={images.imageDefault}
-                alt="Avatar"
-                width={45}
-                height={45}
-                className="rounded-full"
-              />
+              <div className="relative">
+                <Image
+                  src={user?.avatar || images.imageDefault}
+                  alt="Avatar"
+                  width={45}
+                  height={45}
+                  className="rounded-full"
+                />
+                <label
+                  htmlFor="file"
+                  className="absolute -bottom-1 right-0 cursor-pointer"
+                >
+                  <MdAddAPhoto size={15} />
+                </label>
+                <input id="file" name="photo" type="file" className="hidden" />
+              </div>
             </div>
 
             {/* PAINEL */}

@@ -1,14 +1,21 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { useRouter } from "next/navigation";
 import { url, endpoints } from "@/constants/api";
 
 type User = {
-  id: string;
+  id: number;
   name: string;
   email: string;
-  role: string;
+  role: string | null;
+  avatar: string | null;
 };
 
 type AuthContextType = {
@@ -17,6 +24,7 @@ type AuthContextType = {
   isCashRegisterOpen: boolean;
   handleCashRegisterOpen: () => void;
   logout: () => Promise<void>;
+  reloadUser: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -27,7 +35,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isCashRegisterOpen, setIsCashRegisterOpen] = useState(false);
   const router = useRouter();
 
-  async function loadUser() {
+  const loadUser = useCallback(async () => {
+    setLoading(true);
+
     try {
       const res = await fetch(`${url}${endpoints.auth.me}`, {
         credentials: "include",
@@ -39,39 +49,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       const data = await res.json();
-      setUser(data.user);
+      const user = data.user;
+      setUser(user);
     } catch {
       setUser(null);
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
 
   async function logout() {
     await fetch(`${url}${endpoints.auth.logout}`, {
       method: "POST",
       credentials: "include",
     });
+
     setUser(null);
     router.push("/login");
   }
 
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [loadUser]);
 
   function handleCashRegisterOpen() {
-    setIsCashRegisterOpen(!isCashRegisterOpen);
+    setIsCashRegisterOpen((prev) => !prev);
   }
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        isCashRegisterOpen,
         loading,
+        isCashRegisterOpen,
         logout,
         handleCashRegisterOpen,
+        reloadUser: loadUser,
       }}
     >
       {children}
@@ -81,6 +94,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth deve ser usado dentro do AuthProvider");
+  if (!ctx) {
+    throw new Error("useAuth deve ser usado dentro do AuthProvider");
+  }
   return ctx;
 }
