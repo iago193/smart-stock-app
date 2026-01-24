@@ -15,7 +15,8 @@ import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, use, useState } from "react";
+import PreviewImage from "../previewImage";
 
 type SidebarProps = {
   isMobile: boolean;
@@ -33,6 +34,10 @@ export default function SideBar({
   const pathname = usePathname();
   const { user } = useAuth();
 
+  const [image, setImage] = useState<File | null>(null);
+  const [PreviewIsOpen, setPreviewIsOpen] = useState(false);
+  const [fileInputKey, setFileInputKey] = useState(0);
+
   /** 👉 FONTE ÚNICA DE VERDADE */
   const isSidebarExpanded = isMobile ? isMobileOpen : desktopOpen;
 
@@ -44,6 +49,12 @@ export default function SideBar({
 
   const iconOnly =
     "flex justify-center text-2xl hover:text-primary transition duration-300";
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const file = e.target.files[0];
+    setImage(file);
+  };
 
   return (
     <aside className="bg-contentTheme shadow-2xl h-full relative flex">
@@ -60,15 +71,22 @@ export default function SideBar({
                   alt="Avatar"
                   width={45}
                   height={45}
-                  className="rounded-full"
+                  className="w-[45px] h-[45px] rounded-full"
                 />
-                <label
-                  htmlFor="file"
+                <button
+                  onClick={() => setPreviewIsOpen(!PreviewIsOpen)}
                   className="absolute -bottom-1 right-0 cursor-pointer"
                 >
                   <MdAddAPhoto size={15} />
-                </label>
-                <input id="file" name="photo" type="file" className="hidden" />
+                </button>
+                <input
+                  key={fileInputKey}
+                  onChange={handleFileChange}
+                  id="file"
+                  name="image"
+                  type="file"
+                  className="hidden"
+                />
               </div>
             </div>
 
@@ -164,6 +182,21 @@ export default function SideBar({
           </button>
         </div>
       )}
+      <div>
+        <PreviewImage
+          file={image}
+          imageUrl={!image ? (user?.avatar ?? images.imageDefault) : null}
+          previewIsOpen={PreviewIsOpen}
+          setPreviewIsOpen={(open) => {
+            setPreviewIsOpen(open);
+
+            if (!open) {
+              setImage(null); // volta avatar
+              setFileInputKey((prev) => prev + 1); // 🔁 reseta input
+            }
+          }}
+        />
+      </div>
     </aside>
   );
 }
