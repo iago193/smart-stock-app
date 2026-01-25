@@ -173,7 +173,7 @@ export default function SideBar({
 
       {/* ================= BOTÃO DESKTOP ================= */}
       {!isMobile && (
-        <div className="bg-blue-500 shadow-xl px-1 flex items-center">
+        <div className="bg-purple shadow-xl px-1 flex items-center">
           <button
             onClick={() => setDesktopOpen((prev) => !prev)}
             className="text-white h-full flex items-center"

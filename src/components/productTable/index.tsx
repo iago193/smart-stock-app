@@ -111,7 +111,7 @@ export default function TableProducts({
               filted.map((product) => (
                 <tr
                   key={product.id}
-                  className="odd:bg-blue-500/50 even:bg-transparent"
+                  className="odd:bg-purple-900/60 even:bg-transparent"
                 >
                   <td className={styleUl}>{product.id}</td>
                   <td className={styleUl}>{product.name}</td>
@@ -172,7 +172,7 @@ export default function TableProducts({
           <button
             onClick={() => handleStatusFilter("all")}
             className={`px-3 py-2 rounded-2xl shadow-xl ${
-              status === "all" ? "bg-blue-500 text-white" : "bg-contentTheme"
+              status === "all" ? "bg-purple text-white" : "bg-contentTheme"
             }`}
           >
             Todos

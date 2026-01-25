@@ -11,6 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [isloadingLogin, setIsloadingLogin] = useState(false);
 
   const handleInputValue = (value: string): void => {
     setInputValue(value);
@@ -24,7 +25,7 @@ export default function LoginForm() {
   const { reloadUser } = useAuth();
 
   const handleLogin = async (formData: FormData) => {
-    const data = await actionLogin(formData);
+    const data = await actionLogin(formData, setIsloadingLogin);
 
     if (!data.success) {
       setNewError(data.message);
@@ -89,8 +90,13 @@ export default function LoginForm() {
                 </button>
               </div>
             </div>
-            <button className="w-full text-xl font-bold mt-5 bg-blue-500 hover:bg-blue-600 transition duration-300 p-2 rounded-md">
-              Logar
+            <button
+              disabled={isloadingLogin}
+              className={`w-full text-xl font-bold mt-5 
+                transition duration-300 p-2 rounded-md
+                ${isloadingLogin ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"}`}
+            >
+              {!isloadingLogin ? "Logar" : "Logando..."}
             </button>
             <p className="text-red-500 mt-2">
               {error !== null ? (

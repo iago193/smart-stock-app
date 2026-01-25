@@ -6,6 +6,11 @@ export default async function Product() {
   let products: ProductsType[] = [];
   let categories: CategoryListType = [];
 
+  // const sleep = (ms: number) =>
+  //   new Promise((resolve) => setTimeout(resolve, ms));
+
+  // await sleep(9000);
+
   try {
     const response = await fetch(`${url}${endpoints.products}`, {
       method: "GET",

@@ -2,41 +2,18 @@
 
 @layer components {
   :root {
-    --darkTheme:
-      linear-gradient(
-        to bottom,
-        rgba(169, 85, 247, 0.76) 0%,
-        rgba(169, 85, 247, 0.452) 20%,
-        rgba(169, 85, 247, 0.171) 40%,
-        transparent 70%
-      ),
-      #040a16;
-    --whiteTheme:
-      linear-gradient(
-        to bottom,
-        rgba(169, 85, 247, 0.603) 0%,
-        rgba(169, 85, 247, 0.445) 20%,
-        rgba(169, 85, 247, 0.26) 40%,
-        transparent 70%
-      ),
-      #f3f0f0;
-    --contentTheme: #ffffff;
+    --contentColor: #e4e0e0;
   }
 }
 
 @layer theme {
-  .bg-darkTheme {
-    background: var(--darkTheme);
-    color: #ffff;
-  }
-
   .bg-whiteTheme {
-    background: var(--whiteTheme);
+    background: var(--contentColor);
     color: #141414;
   }
 
   .bg-contentTheme {
-    background-color: var(--contentTheme);
+    background-color: var(--contentColor);
   }
 }
 
@@ -67,12 +44,16 @@
   }
 
   .active-path a {
-    background-color: rgba(43, 43, 250, 0.795);
+    background-color: #7f28e2;
     color: white;
     font-weight: bold;
     padding: 8px 12px;
     border-radius: 8px;
   }
+}
+
+.bg-purple {
+  background-color: #7f28e2;
 }
 
 /* Container principal */
@@ -142,5 +123,35 @@
 
   .video-container {
     background: url("../assets/img/bg-fallback.jpg") center / cover no-repeat;
+  }
+}
+
+.loading-bar {
+  width: 260px;
+  height: 4px;
+  background-color: #e9d5ff; /* roxo claro */
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-bar__indicator {
+  position: absolute;
+  height: 100%;
+  width: 40px; /* barrinha pequena */
+  background-color: #7c3aed; /* roxo */
+  border-radius: 9999px;
+  animation: loading-move 1.2s ease-in-out infinite;
+}
+
+@keyframes loading-move {
+  0% {
+    left: 0;
+  }
+  50% {
+    left: calc(100% - 40px);
+  }
+  100% {
+    left: 0;
   }
 }
