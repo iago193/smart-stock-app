@@ -31,3 +31,21 @@ export type ProductsType = {
   images: ProductImageType[];
   category: CategoryType | null;
 };
+
+type OrderItem = {
+  productId: number;
+  productName: string;
+  productSku: string;
+  categoryName: string;
+  unitPrice: number;
+  quantity: number;
+  total: number;
+};
+
+export type Order = {
+  id: number;
+  operator: string;
+  items: OrderItem[];
+  total: number;
+  createdAt: string; // ou Date (explico abaixo)
+};

@@ -6,13 +6,21 @@ import CashRegisterOder from "@/components/cashRegisterOder";
 export default async function CashRegister() {
   let products: ProductsType[] = [];
 
-  const response = await fetch(`${url}${endpoints.products}`, {
-    method: "GET",
-    cache: "no-store",
-  });
+  try {
+    const response = await fetch(`${url}${endpoints.products}`, {
+      method: "GET",
+      cache: "no-store",
+    });
 
-  const data = await response.json();
-  products = data.data;
+    if (!response.ok) {
+      throw new Error("API respondeu com erro");
+    }
+    const data = await response.json();
+    products = data.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Falha ao conectar com a API");
+  }
 
   return (
     <section className="w-full h-screen p-5">

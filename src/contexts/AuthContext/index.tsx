@@ -9,6 +9,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { url, endpoints } from "@/constants/api";
+import { error } from "console";
 
 type User = {
   id: number;
@@ -45,7 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (!res.ok) {
         setUser(null);
-        return;
+        throw new Error("API respondeu com erro");
       }
 
       const data = await res.json();
@@ -53,6 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(user);
     } catch {
       setUser(null);
+      throw new Error("Falha ao conectar com a API");
     } finally {
       setLoading(false);
     }
