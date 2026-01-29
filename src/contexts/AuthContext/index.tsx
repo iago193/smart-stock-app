@@ -9,7 +9,6 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { url, endpoints } from "@/constants/api";
-import { error } from "console";
 
 type User = {
   id: number;
@@ -43,6 +42,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const res = await fetch(`${url}${endpoints.auth.me}`, {
         credentials: "include",
       });
+
+      if (res.status === 401) {
+        setUser(null);
+        return;
+      }
 
       if (!res.ok) {
         setUser(null);

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useError } from "@/contexts/ErrorContext";
 import { toast } from "react-toastify";
-import { actionLogin } from "./action-login";
+import { loginAction } from "@/actions/auth/login";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -25,20 +25,23 @@ export default function LoginForm() {
   const { reloadUser } = useAuth();
 
   const handleLogin = async (formData: FormData) => {
-    const data = await actionLogin(formData, setIsloadingLogin);
+    setIsloadingLogin(true);
+    try {
+      const data = await loginAction(formData);
 
-    if (!data.success) {
-      setNewError(data.message);
-      return;
+      if (!data.success) {
+        setNewError(data.message);
+        return;
+      }
+
+      clearError();
+      toast.success(data.message);
+
+      await reloadUser();
+      router.replace("/cashregister");
+    } finally {
+      setIsloadingLogin(false);
     }
-
-    clearError();
-    toast.success("Logado com sucesso!");
-
-    // 🔥 CARREGA O USER ANTES DE REDIRECIONAR
-    await reloadUser();
-
-    router.replace("/cashregister");
   };
 
   return (

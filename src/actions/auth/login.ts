@@ -1,3 +1,5 @@
+"use client";
+
 import { endpoints, url } from "@/constants/api";
 
 const statusErrorMap: Record<number, string> = {
@@ -9,12 +11,12 @@ const statusErrorMap: Record<number, string> = {
   500: "Erro interno do servidor.",
 };
 
-export async function actionLogin(
-  formData: FormData,
-  setIsloadingLogin: React.Dispatch<React.SetStateAction<boolean>>,
-) {
-  setIsloadingLogin(true);
+type ActionResult = {
+  success: boolean;
+  message: string;
+};
 
+export async function loginAction(formData: FormData): Promise<ActionResult> {
   try {
     const response = await fetch(`${url}${endpoints.auth.login}`, {
       method: "POST",
@@ -25,17 +27,16 @@ export async function actionLogin(
         email: formData.get("email"),
         password: formData.get("password"),
       }),
-      credentials: "include",
       cache: "no-store",
+      credentials: "include",
     });
 
     if (!response.ok) {
-      const message =
-        statusErrorMap[response.status] ?? "Erro inesperado. Tente novamente.";
-
       return {
         success: false,
-        message,
+        message:
+          statusErrorMap[response.status] ??
+          "Erro inesperado. Tente novamente.",
       };
     }
 
@@ -48,7 +49,5 @@ export async function actionLogin(
       success: false,
       message: "Não foi possível conectar ao servidor.",
     };
-  } finally {
-    setIsloadingLogin(false);
   }
 }
