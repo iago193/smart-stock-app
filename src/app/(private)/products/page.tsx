@@ -1,6 +1,9 @@
 import { url, endpoints } from "@/constants/api";
 import TableProducts from "@/components/productTable";
 import type { CategoryListType, ProductsType } from "@/types/productsType";
+import Unauthorized from "@/components/unauthorized";
+import { roles } from "@/constants/roles";
+import { permissionRoutes } from "@/lib/auth/roles";
 
 export default async function Product() {
   let products: ProductsType[] = [];
@@ -44,6 +47,13 @@ export default async function Product() {
   } catch (error) {
     console.log(error);
     throw new Error("Falha ao conectar com a API");
+  }
+
+  const allowed = [roles.OWNER, roles.MANAGER, roles.STOCK];
+  const resAllowed = await permissionRoutes(allowed);
+
+  if (!resAllowed) {
+    return <Unauthorized />;
   }
 
   return (

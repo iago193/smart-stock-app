@@ -1,7 +1,8 @@
 import StatisticComponent from "@/components/statisticComponent";
+import Unauthorized from "@/components/unauthorized";
 import { url, endpoints } from "@/constants/api";
 import { roles } from "@/constants/roles";
-import { permissionRoutes } from "@/hooks/permission-routes";
+import { permissionRoutes } from "@/lib/auth/roles";
 
 export default async function Statistic() {
   let history = null;
@@ -21,12 +22,11 @@ export default async function Statistic() {
     throw new Error("error em buscar histórico");
   }
 
-  const allowed = ["owner"];
-
+  const allowed = [roles.OWNER, roles.MANAGER];
   const resAllowed = await permissionRoutes(allowed);
 
   if (!resAllowed) {
-    return <p>🚫 Você não tem permissão para acessar esta página.</p>;
+    return <Unauthorized />;
   }
 
   return (

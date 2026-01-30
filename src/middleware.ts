@@ -12,7 +12,6 @@ export function middleware(request: NextRequest) {
     throw new Error("JWT_SECRET não definido");
   }
 
-  // Se NÃO tem token → deixa acessar o login
   if (!token) {
     return NextResponse.next();
   }
@@ -20,11 +19,9 @@ export function middleware(request: NextRequest) {
   try {
     jwt.verify(token, secret);
 
-    // Redireciona para área interna
     return NextResponse.redirect(new URL("/cashregister", request.url));
   } catch {
-    // Token inválido → deixa acessar o login
-    return NextResponse.next();
+    return NextResponse.redirect(new URL("/", request.url));
   }
 }
 
